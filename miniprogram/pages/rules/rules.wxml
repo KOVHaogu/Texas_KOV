@@ -1,0 +1,10 @@
+<view class="page">
+  <view class="card" wx:for="{{hands}}" wx:key="name">
+    <text class="hand-icon">{{item.icon}}</text>
+    <view class="hand-info">
+      <text class="hand-name">{{item.name}}</text>
+      <text class="hand-desc">{{item.desc}}</text>
+    </view>
+    <text class="hand-rank">#{{index + 1}}</text>
+  </view>
+</view>

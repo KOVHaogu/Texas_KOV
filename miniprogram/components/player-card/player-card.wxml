@@ -1,0 +1,7 @@
+<view class="player-row {{isSelf ? 'self' : ''}}">
+  <image wx:if="{{player.avatar}}" class="avatar" src="{{player.avatar}}" mode="aspectFill" bindtap="onTapAvatar"/>
+  <view wx:else class="avatar avatar-placeholder">👤</view>
+  <text class="name">{{player.name}}</text>
+  <text class="bet">投{{player.currentBet}}</text>
+  <text class="score">{{player.score}}</text>
+</view>

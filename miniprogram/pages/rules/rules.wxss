@@ -1,0 +1,36 @@
+.page {
+  min-height: 100vh;
+  background: #2c1810;
+  padding: 12px;
+}
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1a0e08;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 8px;
+}
+.hand-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.hand-info { flex: 1; }
+.hand-name {
+  color: #ffeaa7;
+  font-size: 15px;
+  font-weight: 700;
+  display: block;
+}
+.hand-desc {
+  color: #636e72;
+  font-size: 12px;
+  margin-top: 2px;
+  display: block;
+}
+.hand-rank {
+  color: #e17055;
+  font-size: 18px;
+  font-weight: 700;
+}

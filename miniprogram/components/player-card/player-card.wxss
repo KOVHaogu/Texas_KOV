@@ -1,0 +1,42 @@
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #3d2015;
+}
+.player-row.self {
+  padding: 4px 0;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #3d2015;
+}
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e17055;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.name {
+  flex: 1;
+  color: #dfe6e9;
+  font-size: 13px;
+}
+.bet {
+  color: #fab1a0;
+  font-size: 12px;
+}
+.score {
+  color: #ffeaa7;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 50px;
+  text-align: right;
+}

@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "player-card": "/components/player-card/player-card",
+    "bet-picker": "/components/bet-picker/bet-picker"
+  },
+  "navigationBarTitleText": "房间",
+  "disableScroll": true
+}

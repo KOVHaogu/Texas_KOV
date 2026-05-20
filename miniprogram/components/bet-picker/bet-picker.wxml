@@ -1,0 +1,31 @@
+<view class="picker-overlay {{visible ? 'show' : ''}}" bindtap="onClose">
+  <view class="picker-sheet" catchtap="onNoop">
+    <view class="sheet-handle"></view>
+    <view class="sheet-title">选择下注金额</view>
+    <view class="quick-row">
+      <view
+        wx:for="{{quickAmounts}}"
+        wx:key="*this"
+        class="quick-btn"
+        data-amount="{{item}}"
+        bindtap="onQuickBet"
+      >{{item}}</view>
+    </view>
+    <view class="quick-row">
+      <view class="quick-btn all-in" bindtap="onAllIn">ALL IN</view>
+    </view>
+    <view class="custom-row">
+      <input
+        class="custom-input"
+        type="number"
+        adjust-position="{{false}}"
+        placeholder="自定义金额"
+        placeholder-style="color:#636e72"
+        value="{{customAmount}}"
+        bindinput="onCustomInput"
+      />
+      <view class="custom-confirm" bindtap="onCustomConfirm">确认</view>
+    </view>
+    <view class="score-hint">剩余积分：{{score}}</view>
+  </view>
+</view>

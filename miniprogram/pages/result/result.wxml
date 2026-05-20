@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="personal-cards">
+    <view class="card card-pay">
+      <text class="card-label">你需要支付</text>
+      <text class="card-value">{{toPay}}</text>
+      <text class="card-unit">元</text>
+    </view>
+    <view class="card card-receive">
+      <text class="card-label">你将收到</text>
+      <text class="card-value">{{toReceive}}</text>
+      <text class="card-unit">元</text>
+    </view>
+  </view>
+
+  <view class="net-result {{net >= 0 ? 'positive' : 'negative'}}">
+    <text class="net-label">净盈亏</text>
+    <text class="net-value">{{net >= 0 ? '+' : ''}}{{net}} 分（{{netYuan >= 0 ? '+' : ''}}{{netYuan}}元）</text>
+  </view>
+
+  <view class="section" wx:if="{{result.transfers.length > 0}}">
+    <text class="section-title">转账清单（{{result.transfers.length}}笔，最优）</text>
+    <view class="transfer-list">
+      <view class="transfer-item" wx:for="{{result.transfers}}" wx:key="*this">
+        <text class="transfer-from">{{item.from}}</text>
+        <text class="transfer-arrow">→</text>
+        <text class="transfer-to">{{item.to}}</text>
+        <text class="transfer-amount">{{item.amount}}元</text>
+      </view>
+    </view>
+  </view>
+  <view class="section" wx:else>
+    <text class="section-title">所有玩家盈亏一致，无需转账</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">盈亏明细</text>
+    <view class="detail-table">
+      <view class="detail-header">
+        <text>玩家</text>
+        <text>盈亏</text>
+        <text>应付/应收</text>
+      </view>
+      <view class="detail-row" wx:for="{{result.playerDetails}}" wx:key="playerId">
+        <text>{{item.name}}</text>
+        <text class="{{item.net >= 0 ? 'positive' : 'negative'}}">{{item.net >= 0 ? '+' : ''}}{{item.net}}</text>
+        <text class="{{item.net >= 0 ? 'positive' : 'negative'}}">{{item.netYuan >= 0 ? '收' : '付'}}{{item.netYuan >= 0 ? item.netYuan : -item.netYuan}}元</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="settle-btn" wx:if="{{isOwner}}" bindtap="onSettle">💵 重新结算</view>
+</view>

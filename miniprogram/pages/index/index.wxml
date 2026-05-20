@@ -1,0 +1,51 @@
+<view class="page">
+  <view class="brand">
+    <text class="brand-icon">🂡</text>
+    <text class="brand-title">KOV智能计分器</text>
+  </view>
+
+  <view class="profile-setup">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image wx:if="{{avatar}}" class="profile-avatar" src="{{avatar}}" mode="aspectFill"/>
+      <view wx:else class="profile-avatar profile-avatar-placeholder">👤</view>
+    </button>
+    <input
+      class="nickname-input"
+      type="nickname"
+      value="{{nickname}}"
+      placeholder="点击获取微信昵称"
+      placeholder-style="color:#636e72"
+      bindinput="onNicknameInput"
+    />
+  </view>
+
+  <view class="actions">
+    <view class="btn btn-create" bindtap="onCreateRoom">
+      <text class="btn-text">创建房间</text>
+      <text class="btn-hint">生成4位房间码</text>
+    </view>
+
+    <view class="divider">
+      <view class="divider-line"></view>
+      <text class="divider-text">或 加入已有房间</text>
+      <view class="divider-line"></view>
+    </view>
+
+    <view class="join-box">
+      <input
+        class="join-input"
+        type="number"
+        maxlength="4"
+        placeholder="输入4位房间号"
+        placeholder-style="color:#636e72"
+        value="{{roomId}}"
+        bindinput="onRoomIdInput"
+      />
+      <view class="btn btn-join {{roomId.length !== 4 ? 'disabled' : ''}}" bindtap="onJoinRoom">
+        加入房间
+      </view>
+    </view>
+
+    <text class="brand-mark">K O V</text>
+  </view>
+</view>

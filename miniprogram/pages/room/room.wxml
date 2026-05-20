@@ -1,0 +1,128 @@
+<view class="room-page">
+  <view class="top-bar">
+    <view class="top-left" bindtap="onGoRules">
+      <text class="room-icon">🂡</text>
+      <text class="room-id">{{roomId}}</text>
+    </view>
+    <view class="top-right" bindtap="onToggleMenu">
+      <text class="menu-icon">⋯</text>
+    </view>
+  </view>
+
+  <view class="info-bar">
+    <view class="pot-box">
+      <text class="pot-label">💰 总投注池</text>
+      <text class="pot-value">{{pot}}</text>
+    </view>
+    <view class="log-box">
+      <view class="log-header">
+        <text class="log-label">💬 日志</text>
+        <text class="log-more" bindtap="onShowLogModal">查看全部 ›</text>
+      </view>
+      <scroll-view class="log-scroll" scroll-y>
+        <text wx:for="{{logs}}" wx:key="*this" class="log-item">{{item}}</text>
+        <text wx:if="{{logs.length === 0}}" class="log-empty">暂无操作</text>
+      </scroll-view>
+    </view>
+  </view>
+
+  <scroll-view class="player-list" scroll-y enhanced show-scrollbar="{{false}}">
+    <player-card
+      wx:for="{{otherPlayers}}"
+      wx:key="playerId"
+      player="{{item}}"
+      isSelf="{{false}}"
+    />
+    <view wx:if="{{otherPlayers.length === 0}}" class="empty-hint">等待其他玩家加入...</view>
+  </scroll-view>
+
+  <view class="self-area">
+    <view class="self-info">
+      <image wx:if="{{selfPlayer.avatar}}" class="self-avatar" src="{{selfPlayer.avatar}}" mode="aspectFill" bindtap="onEditProfile"/>
+      <view wx:else class="self-avatar self-avatar-placeholder" bindtap="onEditProfile">👤</view>
+      <view class="self-detail">
+        <text class="self-name" bindtap="onEditNickname">{{selfPlayer.name || '我'}} ✎</text>
+        <text class="self-bet">投注: {{selfPlayer.currentBet || 0}}</text>
+      </view>
+      <text class="self-score">{{selfPlayer.score || 0}}</text>
+    </view>
+    <view class="self-buttons">
+      <view class="btn btn-bet {{bettingDisabled ? 'disabled' : ''}}" bindtap="onShowPicker">🟢 出</view>
+      <view class="btn btn-win {{bettingDisabled ? 'disabled' : ''}}" bindtap="onWin">🔵 收</view>
+    </view>
+  </view>
+
+  <view class="picker-wrapper {{showPicker ? '' : 'picker-wrapper--hidden'}}">
+    <bet-picker
+      visible="{{true}}"
+      score="{{selfPlayer.score || 0}}"
+      maxBet="{{maxBet}}"
+      bind:bet="onBet"
+      bind:close="onClosePicker"
+    />
+  </view>
+
+  <view class="menu-overlay {{showMenu ? 'show' : ''}}" bindtap="onCloseMenu">
+    <view class="menu-sheet" catchtap="onNoop">
+      <view class="menu-item" wx:if="{{isOwner}}" bindtap="onNewGame"><text class="menu-emoji">🔄</text>新的一局</view>
+      <view class="menu-item" wx:if="{{isOwner}}" bindtap="onConfig"><text class="menu-emoji">⚙️</text>筹码设置</view>
+      <view class="menu-item" bindtap="onGoRules"><text class="menu-emoji">🂡</text>牌型说明</view>
+      <view class="menu-item" bindtap="onGoResult"><text class="menu-emoji">💵</text>结算积分</view>
+      <view class="menu-item" bindtap="onShareRoom"><text class="menu-emoji">🔗</text>分享房间</view>
+      <view class="menu-divider"></view>
+      <view class="menu-item menu-danger" bindtap="onLeaveRoom"><text class="menu-emoji">🚪</text>退出房间</view>
+    </view>
+  </view>
+
+  <view class="menu-overlay {{showOwnerTransfer ? 'show' : ''}}">
+    <view class="transfer-sheet">
+      <text class="transfer-title">选择新房东</text>
+      <view
+        wx:for="{{otherPlayers}}"
+        wx:key="playerId"
+        class="transfer-player"
+        data-playerid="{{item.playerId}}"
+        bindtap="onSelectNewOwner"
+      >
+        <text>{{item.name}}</text>
+      </view>
+      <view class="transfer-cancel" bindtap="onLeaveRoom">不转让，直接退出</view>
+    </view>
+  </view>
+
+  <view class="menu-overlay {{showLogModal ? 'show' : ''}}" bindtap="onCloseLogModal">
+    <view class="log-modal-sheet" catchtap="onNoop">
+      <view class="log-modal-header">
+        <text class="log-modal-title">📋 完整日志</text>
+        <text class="log-modal-close" bindtap="onCloseLogModal">✕</text>
+      </view>
+      <scroll-view class="log-modal-body" scroll-y>
+        <text wx:for="{{allLogs}}" wx:key="*this" class="log-modal-item">{{item}}</text>
+        <text wx:if="{{allLogs.length === 0}}" class="log-empty">暂无操作记录</text>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="menu-overlay {{showConfig ? 'show' : ''}}" bindtap="onCloseConfig">
+    <view class="config-sheet" catchtap="onNoop">
+      <text class="config-title">⚙️ 筹码设置</text>
+      <view class="config-field">
+        <text class="config-label">初始筹码</text>
+        <input class="config-input" type="number" adjust-position="{{false}}" value="{{configForm.initialChips}}" data-field="initialChips" bindinput="onConfigFieldChange"/>
+      </view>
+      <view class="config-field">
+        <text class="config-label">限制单次下注</text>
+        <switch checked="{{configForm.maxBetEnabled}}" data-field="maxBetEnabled" bindchange="onConfigSwitchChange" color="#e17055"/>
+      </view>
+      <view class="config-field" wx:if="{{configForm.maxBetEnabled}}">
+        <text class="config-label">单次上限</text>
+        <input class="config-input" type="number" adjust-position="{{false}}" value="{{configForm.maxBet}}" data-field="maxBet" bindinput="onConfigIntFieldChange"/>
+      </view>
+      <view class="config-field">
+        <text class="config-label">1元 = X积分</text>
+        <input class="config-input" type="number" adjust-position="{{false}}" value="{{configForm.exchangeRate}}" data-field="exchangeRate" bindinput="onConfigIntFieldChange"/>
+      </view>
+      <view class="btn config-save" bindtap="onSaveConfig">保存</view>
+    </view>
+  </view>
+</view>
