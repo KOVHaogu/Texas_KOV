@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
   const { roomId, amount } = event
 
   if (!amount || amount <= 0) {
-    return { code: -1, msg: '下注金额无效' }
+    return { code: -1, msg: '下注积分无效' }
   }
 
   const res = await db.collection('Game').where({ roomId, status: 'playing' }).get()

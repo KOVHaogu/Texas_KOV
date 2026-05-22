@@ -42,6 +42,12 @@ Component({
         }
       })
     },
+    onInputFocus() {
+      this._inputFocused = true
+    },
+    onInputBlur() {
+      this._inputFocused = false
+    },
     onCustomInput(e) {
       this.setData({ customAmount: e.detail.value })
     },
@@ -66,6 +72,10 @@ Component({
       this.triggerEvent('bet', { amount })
     },
     onClose() {
+      if (this._inputFocused) {
+        wx.hideKeyboard()
+        return
+      }
       this.setData({ customAmount: '' })
       this.triggerEvent('close')
     }

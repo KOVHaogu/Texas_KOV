@@ -2,35 +2,85 @@
   min-height: 100vh;
   background: #2c1810;
   padding: 12px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
 }
-.card {
+
+.hand-card {
+  background: #1a0e08;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.hand-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #1a0e08;
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
-.hand-icon {
-  font-size: 28px;
+
+.hand-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e17055;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
-.hand-info { flex: 1; }
+
 .hand-name {
   color: #ffeaa7;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  display: block;
 }
+
+.hand-cards {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.mini-card {
+  width: 36px;
+  height: 50px;
+  background: #24140d;
+  border: 1px solid #3d2015;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #dfe6e9;
+}
+
+.mini-card-red {
+  color: #e17055;
+}
+
+.card-top {
+  font-size: 10px;
+  line-height: 1;
+  margin-bottom: -1px;
+}
+
+.card-suit-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.card-bottom {
+  font-size: 10px;
+  line-height: 1;
+  margin-top: -1px;
+  transform: rotate(180deg);
+}
+
 .hand-desc {
   color: #636e72;
   font-size: 12px;
-  margin-top: 2px;
-  display: block;
-}
-.hand-rank {
-  color: #e17055;
-  font-size: 18px;
-  font-weight: 700;
 }

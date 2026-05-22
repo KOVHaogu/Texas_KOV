@@ -1,7 +1,8 @@
-<view class="picker-overlay {{visible ? 'show' : ''}}" bindtap="onClose">
-  <view class="picker-sheet" catchtap="onNoop">
+<view class="picker-overlay {{visible ? 'show' : ''}}">
+  <view class="picker-backdrop" bindtap="onClose"></view>
+  <view class="picker-sheet">
     <view class="sheet-handle"></view>
-    <view class="sheet-title">选择下注金额</view>
+    <view class="sheet-title">选择下注积分</view>
     <view class="quick-row">
       <view
         wx:for="{{quickAmounts}}"
@@ -19,9 +20,11 @@
         class="custom-input"
         type="number"
         adjust-position="{{false}}"
-        placeholder="自定义金额"
+        placeholder="自定义积分"
         placeholder-style="color:#636e72"
         value="{{customAmount}}"
+        bindfocus="onInputFocus"
+        bindblur="onInputBlur"
         bindinput="onCustomInput"
       />
       <view class="custom-confirm" bindtap="onCustomConfirm">确认</view>

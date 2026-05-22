@@ -1,10 +1,16 @@
 <view class="page">
-  <view class="card" wx:for="{{hands}}" wx:key="name">
-    <text class="hand-icon">{{item.icon}}</text>
-    <view class="hand-info">
+  <view class="hand-card" wx:for="{{hands}}" wx:key="name">
+    <view class="hand-header">
+      <text class="hand-rank">{{index + 1}}</text>
       <text class="hand-name">{{item.name}}</text>
-      <text class="hand-desc">{{item.desc}}</text>
     </view>
-    <text class="hand-rank">#{{index + 1}}</text>
+    <view class="hand-cards">
+      <view class="mini-card {{card.suit === 'diamond' || card.suit === 'red' ? 'mini-card-red' : ''}}" wx:for="{{item.cards}}" wx:key="*this" wx:for-item="card">
+        <text class="card-top">{{card.rank}}</text>
+        <text class="card-suit-icon">{{card.suit === 'spade' ? '♠' : (card.suit === 'red' ? '♥' : (card.suit === 'diamond' ? '♦' : '♣'))}}</text>
+        <text class="card-bottom">{{card.rank}}</text>
+      </view>
+    </view>
+    <text class="hand-desc">{{item.desc}}</text>
   </view>
 </view>

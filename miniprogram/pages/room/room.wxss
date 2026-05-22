@@ -21,9 +21,6 @@
   align-items: center;
   gap: 6px;
 }
-.picker-wrapper--hidden {
-  display: none;
-}
 .room-icon { font-size: 18px; }
 .room-id {
   color: #fab1a0;
@@ -151,13 +148,6 @@
   bottom: 0;
   background: rgba(0,0,0,0.6);
   z-index: 200;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s, visibility 0.2s;
-}
-.menu-overlay.show {
-  opacity: 1;
-  visibility: visible;
 }
 .menu-sheet {
   position: absolute;
@@ -183,6 +173,15 @@
   flex-shrink: 0;
 }
 .menu-item:active { background: #2c1810; }
+.menu-share-btn {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  line-height: inherit;
+  text-align: left;
+  width: 100%;
+}
+.menu-share-btn::after { border: none; }
 .menu-divider {
   height: 1px;
   background: #2c1810;

@@ -27,11 +27,35 @@ Page({
   onLoad(options) {
     const roomId = options.roomId
     this.setData({ roomId })
-    this.startWatch(roomId)
+    this.ensureOpenid(() => {
+      this.startWatch(roomId)
+    })
     this.monitorNetwork()
   },
 
+  ensureOpenid(cb) {
+    if (app.globalData.openid) return cb()
+    wx.cloud.callFunction({
+      name: 'login',
+      success: (res) => {
+        app.globalData.openid = res.result.openid
+        cb()
+      },
+      fail: () => {
+        wx.cloud.callFunction({
+          name: 'login',
+          success: (res) => {
+            app.globalData.openid = res.result.openid
+            cb()
+          },
+          fail: () => cb()
+        })
+      }
+    })
+  },
+
   onUnload() {
+    wx.removeStorageSync('activeRoomId')
     if (this._watcher) {
       this._watcher.close()
     }
@@ -48,7 +72,7 @@ Page({
         onChange: (snapshot) => {
           if (snapshot.docs.length === 0) {
             wx.showToast({ title: '房间已解散', icon: 'none' })
-            wx.navigateBack()
+            wx.redirectTo({ url: '/pages/index/index' })
             return
           }
           const game = snapshot.docs[0]
@@ -294,10 +318,10 @@ Page({
       name: 'leaveRoom',
       data: { roomId: this.data.roomId },
       success: () => {
-        wx.navigateBack()
+        wx.redirectTo({ url: '/pages/index/index' })
       },
       fail: () => {
-        wx.navigateBack()
+        wx.redirectTo({ url: '/pages/index/index' })
       }
     })
   },

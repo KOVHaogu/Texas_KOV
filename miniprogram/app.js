@@ -2,6 +2,7 @@ var config = require('./config.js')
 
 App({
   onLaunch() {
+    this._coldLaunch = true
     if (wx.cloud) {
       wx.cloud.init({
         env: config.envId,

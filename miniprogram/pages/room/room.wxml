@@ -1,6 +1,6 @@
 <view class="room-page">
   <view class="top-bar">
-    <view class="top-left" bindtap="onGoRules">
+    <view class="top-left" bindtap="onLeaveRoom">
       <text class="room-icon">🂡</text>
       <text class="room-id">{{roomId}}</text>
     </view>
@@ -52,29 +52,28 @@
     </view>
   </view>
 
-  <view class="picker-wrapper {{showPicker ? '' : 'picker-wrapper--hidden'}}">
-    <bet-picker
-      visible="{{true}}"
-      score="{{selfPlayer.score || 0}}"
-      maxBet="{{maxBet}}"
-      bind:bet="onBet"
-      bind:close="onClosePicker"
-    />
-  </view>
+  <bet-picker
+    wx:if="{{showPicker}}"
+    visible="{{true}}"
+    score="{{selfPlayer.score || 0}}"
+    maxBet="{{maxBet}}"
+    bind:bet="onBet"
+    bind:close="onClosePicker"
+  />
 
-  <view class="menu-overlay {{showMenu ? 'show' : ''}}" bindtap="onCloseMenu">
+  <view wx:if="{{showMenu}}" class="menu-overlay show" bindtap="onCloseMenu">
     <view class="menu-sheet" catchtap="onNoop">
       <view class="menu-item" wx:if="{{isOwner}}" bindtap="onNewGame"><text class="menu-emoji">🔄</text>新的一局</view>
       <view class="menu-item" wx:if="{{isOwner}}" bindtap="onConfig"><text class="menu-emoji">⚙️</text>筹码设置</view>
       <view class="menu-item" bindtap="onGoRules"><text class="menu-emoji">🂡</text>牌型说明</view>
       <view class="menu-item" bindtap="onGoResult"><text class="menu-emoji">💵</text>结算积分</view>
-      <view class="menu-item" bindtap="onShareRoom"><text class="menu-emoji">🔗</text>分享房间</view>
+      <button class="menu-item menu-share-btn" open-type="share"><text class="menu-emoji">🔗</text>分享房间</button>
       <view class="menu-divider"></view>
       <view class="menu-item menu-danger" bindtap="onLeaveRoom"><text class="menu-emoji">🚪</text>退出房间</view>
     </view>
   </view>
 
-  <view class="menu-overlay {{showOwnerTransfer ? 'show' : ''}}">
+  <view wx:if="{{showOwnerTransfer}}" class="menu-overlay show">
     <view class="transfer-sheet">
       <text class="transfer-title">选择新房东</text>
       <view
@@ -90,7 +89,7 @@
     </view>
   </view>
 
-  <view class="menu-overlay {{showLogModal ? 'show' : ''}}" bindtap="onCloseLogModal">
+  <view wx:if="{{showLogModal}}" class="menu-overlay show" bindtap="onCloseLogModal">
     <view class="log-modal-sheet" catchtap="onNoop">
       <view class="log-modal-header">
         <text class="log-modal-title">📋 完整日志</text>
@@ -103,11 +102,11 @@
     </view>
   </view>
 
-  <view class="menu-overlay {{showConfig ? 'show' : ''}}" bindtap="onCloseConfig">
+  <view wx:if="{{showConfig}}" class="menu-overlay show" bindtap="onCloseConfig">
     <view class="config-sheet" catchtap="onNoop">
       <text class="config-title">⚙️ 筹码设置</text>
       <view class="config-field">
-        <text class="config-label">初始筹码</text>
+        <text class="config-label">初始积分</text>
         <input class="config-input" type="number" adjust-position="{{false}}" value="{{configForm.initialChips}}" data-field="initialChips" bindinput="onConfigFieldChange"/>
       </view>
       <view class="config-field">
